@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost/Basdat/kelompok_api/index.php";
+const BASE_URL = "http://localhost/BASDAT_VOTING/index.php";
 
 document.getElementById("registerForm").addEventListener("submit", async function (e) {
     e.preventDefault();

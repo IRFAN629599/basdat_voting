@@ -1,4 +1,4 @@
-const API = "http://localhost/Basdat/kelompok_api/index.php?action=";
+const API = "http://localhost/BASDAT_VOTING/index.php?action=";
 const user = JSON.parse(localStorage.getItem("user"));
 
 if (!user || user.role.toLowerCase() !== "admin") {

@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost/Basdat/kelompok_api/index.php";
+const BASE_URL = "http://localhost/BASDAT_VOTING/index.php";
 const user = JSON.parse(localStorage.getItem("user"));
 
 if (!user) {
