@@ -1,0 +1,189 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #eef2f7;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+h2 {
+    margin-top: 40px;
+}
+
+.top-bar.osis,
+.top-bar.mpk {
+    color: white;
+    margin: 15px;
+    padding: 12px 15px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.top-bar.osis {
+    background: #C40E0E;
+}
+
+.top-bar.mpk {
+    background: #05960A;
+}
+
+.check {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.check img {
+    width: 100%;
+    height: 100%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 30px;
+}
+
+.card {
+    border: 2px solid #00ff99;
+    border-radius: 20px;
+    padding: 15px;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    border-color: orange;
+}
+
+.foto {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.person img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.person span {
+    font-size: 12px;
+}
+
+.btn {
+    margin-top: 8px;
+    padding: 10px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    transition: 0.3s;
+}
+
+body.osis .btn {
+    background: #C40E0E;
+}
+
+body.osis .btn:hover {
+    background: #a30b0b;
+}
+
+body.mpk .btn {
+    background: #05960A;
+}
+
+body.mpk .btn:hover {
+    background: #047508;
+}
+
+.pilih {
+    font-weight: bold;
+}
+
+.visi-btn {
+    background: #D9D9D9 !important;
+    color: black;
+}
+
+.visi-btn:hover {
+    background: #c5c5c5 !important;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal:target {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+}
+
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .card {
+        min-height: auto;
+        padding: 20px;
+    }
+
+    .person img {
+        width: 50px;
+        height: 50px;
+    }
+
+    h2 {
+        margin-top: 30px;
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

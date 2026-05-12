@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login E-Voting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="shortcut icon" href="assets/img/logo_bpm.png" type="image/x-icon">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="popup" id="popup">
+      <div class="popup-content">
+        <h3>E-Voting OSIS & MPK</h3>
+        <p>Selamat Datang!<br>Silakan login untuk memulai voting.</p>
+        <button onclick="closePopup()">Mulai</button>
+      </div>
+    </div>
+
+    <div class="login-card">
+      <img src="assets/img/logo_bpm.png" alt="Logo BPM">
+      <h4>Login</h4>
+
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+
+        <p>Belum punya akun? <a href="register.html">Register Sekarang</a></p>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+  </script>
+
+  <script src="js/login.js"></script>
+  <script src="js/register.js"></script>
+</body>
+
+</html>

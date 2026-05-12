@@ -1,0 +1,93 @@
+body {
+    background: #eef2f7;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 25px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
+.main {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 120px;
+}
+
+.logo-box {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    transition: 0.3s;
+    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.15));
+}
+
+.logo-box:hover .logo {
+    transform: scale(1.1);
+}
+
+.menu-text {
+    margin-top: 15px;
+    width: 220px;
+    text-align: center;
+    background: #ddd;
+    color: black;
+    padding: 14px 0;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.menu-text:hover {
+    transform: scale(1.05);
+}
+
+.logo-box:nth-child(1) .menu-text:hover {
+    background: #C40E0E;
+    color: white;
+}
+
+.menu-text.mpk:hover {
+    background: #05960A;
+    color: white;
+}

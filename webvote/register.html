@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Register User</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="shortcut icon" href="assets/img/logo_bpm.png" type="image/x-icon">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="login-card">
+      <img src="assets/img/logo_bpm.png" alt="Logo BPM">
+      <h4>Register</h4>
+
+      <form id="registerForm">
+        <input type="text" id="nipd" placeholder="Masukkan NIPD / NIP" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <select id="role" required>
+          <option value="" disabled selected>Pilih Role</option>
+          <option value="siswa">Siswa</option>
+          <option value="guru">Guru</option>
+        </select>
+        <button type="submit">Register</button>
+      </form>
+
+      <p id="msg" style="color:red;"></p>
+    </div>
+
+  </div>
+
+  <script src="js/register.js"></script>
+</body>
+
+</html>

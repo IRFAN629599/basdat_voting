@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin E-Voting</title>
+
+    <link rel="stylesheet" href="css/admin.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="shortcut icon" href="assets/img/logo_bpm.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <div class="logo-area">
+            <img src="assets/img/logo_bpm.png">
+            <p class="title">Voting BPM</p>
+        </div>
+
+        <a onclick="showPage('dashboard',this)" class="active">Dashboard</a>
+        <a onclick="showPage('siswa',this)">Siswa</a>
+        <a onclick="showPage('guru',this)">Guru</a>
+        <a onclick="showPage('kandidat',this)">Kandidat</a>
+        <a onclick="showPage('periode',this)">Periode</a>
+        <a onclick="logout()">Logout</a>
+
+    </div>
+
+    <div class="main">
+
+        <h2 id="titlePage">Dashboard</h2>
+
+        <!-- DASHBOARD -->
+
+        <div id="dashboard" class="page">
+
+            <div class="cards">
+
+                <div class="card">
+                    <h3 id="totalSiswa">0</h3>
+                    <p>Siswa</p>
+                </div>
+
+                <div class="card">
+                    <h3 id="totalGuru">0</h3>
+                    <p>Guru</p>
+                </div>
+
+                <div class="card">
+                    <h3 id="totalKandidat">0</h3>
+                    <p>Kandidat</p>
+                </div>
+
+                <div class="card">
+                    <h3 id="periodeAktif">-</h3>
+                    <p>Periode Aktif</p>
+                </div>
+
+            </div>
+
+            <div class="box">
+
+                <h3>Progres Voting Kandidat</h3>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Ketua</th>
+                            <th>Jenis Organisasi</th>
+                            <th>Jumlah Suara</th>
+                            <th>Persentase</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tblProgres"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- SISWA -->
+
+        <div id="siswa" class="page hidden">
+
+            <div class="box">
+
+                <button onclick="showFormSiswa()">
+                    + Tambah Siswa
+                </button>
+
+                <div id="formSiswa" class="hidden form">
+
+                    <input id="f_nipd" placeholder="NIPD">
+
+                    <input id="f_nama" placeholder="Nama">
+
+                    <select id="f_jk">
+                        <option value="L">L</option>
+                        <option value="P">P</option>
+                    </select>
+
+                    <select id="f_status">
+                        <option value="Y">Aktif</option>
+                        <option value="N">Nonaktif</option>
+                    </select>
+
+                    <button onclick="saveSiswa()">Simpan</button>
+
+                    <button onclick="resetForm()">
+                        Batal
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="box">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>NIPD</th>
+                            <th>Nama</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tblSiswa"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- GURU -->
+
+        <div id="guru" class="page hidden">
+
+            <div class="box">
+
+                <button onclick="showFormGuru()">
+                    + Tambah Guru
+                </button>
+
+                <div id="formGuru" class="hidden form">
+
+                    <input id="g_nip" placeholder="NIP">
+
+                    <input id="g_nama" placeholder="Nama">
+
+                    <select id="g_jk">
+                        <option value="L">L</option>
+                        <option value="P">P</option>
+                    </select>
+
+                    <button onclick="saveGuru()">
+                        Simpan
+                    </button>
+
+                    <button onclick="resetFormGuru()">
+                        Batal
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="box">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>NIP</th>
+                            <th>Nama</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tblGuru"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- KANDIDAT -->
+
+        <div id="kandidat" class="page hidden">
+
+            <div class="box">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Ketua</th>
+                            <th>Wakil</th>
+                            <th>Jenis Organisasi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tblKandidat"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- PERIODE -->
+
+        <div id="periode" class="page hidden">
+
+            <div class="box">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tblPeriode"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="js/admin.js"></script>
+
+</body>
+
+</html>

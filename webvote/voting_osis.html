@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Voting OSIS</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="shortcut icon" href="assets/img/logo_bpm.png" type="image/x-icon">
+</head>
+
+<body class="osis">
+
+<h2>Voting OSIS</h2>
+
+<div class="top-bar osis">
+    <span>OSIS</span>
+    <div class="check">
+        <img src="assets/img/osis-removebg-preview.png" alt="OSIS">
+    </div>
+</div>
+
+<div class="grid" id="kandidat"></div>
+<div id="modal-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="js/voting.js"></script>
+
+<script>
+loadKandidat("osis");
+</script>
+
+</body>
+</html>

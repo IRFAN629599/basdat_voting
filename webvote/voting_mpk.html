@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Voting MPK</title>
+        <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/img/logo_bpm.png" type="image/x-icon">
+</head>
+
+<body class="mpk">
+
+<h2>Voting MPK</h2>
+
+<div class="top-bar mpk">
+    <span>MPK</span>
+    <div class="check">
+        <img src="assets/img/mpk.png" alt="MPK">
+    </div>
+</div>
+
+<div class="grid" id="kandidat"></div>
+<div id="modal-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="js/voting.js"></script>
+
+<script>
+loadKandidat("mpk");
+</script>
+
+</body>
+</html>
