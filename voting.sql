@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versi server:                 8.4.3 - MySQL Community Server - GPL
--- OS Server:                    Win64
--- HeidiSQL Versi:               12.8.0.6908
+-- Server version:               8.4.3 - MySQL Community Server - GPL
+-- Server OS:                    Win64
+-- HeidiSQL Version:             12.8.0.6908
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -15,11 +15,11 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Membuang struktur basisdata untuk vote_osismpk
+-- Dumping database structure for vote_osismpk
 CREATE DATABASE IF NOT EXISTS `vote_osismpk` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `vote_osismpk`;
 
--- membuang struktur untuk table vote_osismpk.m_guru
+-- Dumping structure for table vote_osismpk.m_guru
 CREATE TABLE IF NOT EXISTS `m_guru` (
   `id_guru` int NOT NULL AUTO_INCREMENT,
   `nip` varchar(50) DEFAULT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `m_guru` (
   UNIQUE KEY `nip` (`nip`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Membuang data untuk tabel vote_osismpk.m_guru: ~13 rows (lebih kurang)
+-- Dumping data for table vote_osismpk.m_guru: ~13 rows (approximately)
 INSERT INTO `m_guru` (`id_guru`, `nip`, `nama_guru`, `jenis_kelamin`) VALUES
 	(1, 'G001', 'Denisa ramadanti', 'P'),
 	(2, 'G002', 'Lidiawati', 'P'),
@@ -45,7 +45,7 @@ INSERT INTO `m_guru` (`id_guru`, `nip`, `nama_guru`, `jenis_kelamin`) VALUES
 	(12, 'G012', 'Sukron ansori', 'L'),
 	(18, 'G013', 'Rudianto', 'L');
 
--- membuang struktur untuk table vote_osismpk.m_kandidat
+-- Dumping structure for table vote_osismpk.m_kandidat
 CREATE TABLE IF NOT EXISTS `m_kandidat` (
   `id_kandidat` int NOT NULL AUTO_INCREMENT,
   `id_ketua` int DEFAULT NULL,
@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS `m_kandidat` (
   `jenis` enum('osis','mpk') DEFAULT NULL,
   `visi` varchar(200) DEFAULT NULL,
   `misi` varchar(200) DEFAULT NULL,
+  `foto_kandidat` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`id_kandidat`),
   KEY `id_ketua` (`id_ketua`),
   KEY `id_wakil` (`id_wakil`),
@@ -63,20 +64,20 @@ CREATE TABLE IF NOT EXISTS `m_kandidat` (
   CONSTRAINT `m_kandidat_ibfk_3` FOREIGN KEY (`id_periode`) REFERENCES `m_periode` (`id_periode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Membuang data untuk tabel vote_osismpk.m_kandidat: ~10 rows (lebih kurang)
-INSERT INTO `m_kandidat` (`id_kandidat`, `id_ketua`, `id_wakil`, `id_periode`, `jenis`, `visi`, `misi`) VALUES
-	(1, 4, 1, 2, 'osis', 'OSIS aktif dan kreatif', 'Mengadakan kegiatan seru & bermanfaat'),
-	(2, 19, 10, 2, 'osis', 'OSIS disiplin dan kompak', 'Meningkatkan kerjasama dan kedisiplinan siswa'),
-	(3, 6, 13, 2, 'mpk', 'MPK tegas dan adil', 'Menyampaikan aspirasi siswa'),
-	(4, 9, 5, 2, 'mpk', 'MPK responsif', 'Menjadi penghubung siswa dan sekolah'),
-	(5, 14, 22, 2, 'osis', 'mabar sambil main bareng', 'job is bad goon is good'),
-	(6, 11, 12, 2, 'mpk', 'hidup sementara epep selama nya', 'menjadikan siswa BPM pemain epep handal'),
-	(7, 25, 26, 1, 'osis', NULL, NULL),
-	(8, 15, 19, 1, 'osis', NULL, NULL),
-	(9, 3, 9, 1, 'mpk', NULL, NULL),
-	(10, 25, 14, 1, 'mpk', NULL, NULL);
+-- Dumping data for table vote_osismpk.m_kandidat: ~10 rows (approximately)
+INSERT INTO `m_kandidat` (`id_kandidat`, `id_ketua`, `id_wakil`, `id_periode`, `jenis`, `visi`, `misi`, `foto_kandidat`) VALUES
+	(1, 4, 1, 2, 'osis', 'OSIS aktif dan kreatif', 'Mengadakan kegiatan seru & bermanfaat', NULL),
+	(2, 19, 10, 2, 'osis', 'OSIS disiplin dan kompak', 'Meningkatkan kerjasama dan kedisiplinan siswa', NULL),
+	(3, 6, 13, 2, 'mpk', 'MPK tegas dan adil', 'Menyampaikan aspirasi siswa', NULL),
+	(4, 9, 5, 2, 'mpk', 'MPK responsif', 'Menjadi penghubung siswa dan sekolah', NULL),
+	(5, 14, 22, 2, 'osis', 'mabar sambil main bareng', 'job is bad goon is good', NULL),
+	(6, 11, 12, 2, 'mpk', 'hidup sementara epep selama nya', 'menjadikan siswa BPM pemain epep handal', NULL),
+	(7, 25, 26, 1, 'osis', NULL, NULL, NULL),
+	(8, 15, 19, 1, 'osis', NULL, NULL, NULL),
+	(9, 3, 9, 1, 'mpk', NULL, NULL, NULL),
+	(10, 25, 14, 1, 'mpk', NULL, NULL, NULL);
 
--- membuang struktur untuk table vote_osismpk.m_periode
+-- Dumping structure for table vote_osismpk.m_periode
 CREATE TABLE IF NOT EXISTS `m_periode` (
   `id_periode` int NOT NULL AUTO_INCREMENT,
   `nama_periode` varchar(50) DEFAULT NULL,
@@ -84,16 +85,14 @@ CREATE TABLE IF NOT EXISTS `m_periode` (
   `tanggal_selesai` date DEFAULT NULL,
   `is_active` enum('Y','N') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id_periode`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Membuang data untuk tabel vote_osismpk.m_periode: ~3 rows (lebih kurang)
+-- Dumping data for table vote_osismpk.m_periode: ~2 rows (approximately)
 INSERT INTO `m_periode` (`id_periode`, `nama_periode`, `tanggal_mulai`, `tanggal_selesai`, `is_active`) VALUES
 	(1, '2027', '2026-01-01', '2026-12-31', 'Y'),
-	(2, '2026', '2026-05-05', '2026-12-31', 'N'),
-	(3, '2028', NULL, NULL, 'N'),
-	(4, '2029', NULL, NULL, 'N');
+	(2, '2026', '2026-05-05', '2026-12-31', 'N');
 
--- membuang struktur untuk table vote_osismpk.m_siswa
+-- Dumping structure for table vote_osismpk.m_siswa
 CREATE TABLE IF NOT EXISTS `m_siswa` (
   `id_siswa` int NOT NULL AUTO_INCREMENT,
   `nipd` varchar(10) DEFAULT NULL,
@@ -104,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `m_siswa` (
   UNIQUE KEY `nipd` (`nipd`)
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Membuang data untuk tabel vote_osismpk.m_siswa: ~32 rows (lebih kurang)
+-- Dumping data for table vote_osismpk.m_siswa: ~32 rows (approximately)
 INSERT INTO `m_siswa` (`id_siswa`, `nipd`, `nama_siswa`, `jenis_kelamin`, `is_active`) VALUES
 	(1, '242510072', 'Putra kasela', 'L', 'Y'),
 	(2, '242510078', 'Sakanovagio', 'L', 'Y'),
@@ -139,7 +138,7 @@ INSERT INTO `m_siswa` (`id_siswa`, `nipd`, `nama_siswa`, `jenis_kelamin`, `is_ac
 	(37, '242510999', 'Subagio Ndoro ngidul', 'P', 'N'),
 	(38, '252610062', 'Bradar Sucipto', 'L', 'N');
 
--- membuang struktur untuk table vote_osismpk.m_users
+-- Dumping structure for table vote_osismpk.m_users
 CREATE TABLE IF NOT EXISTS `m_users` (
   `id_users` int NOT NULL AUTO_INCREMENT,
   `username` varchar(50) DEFAULT NULL,
@@ -155,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `m_users` (
   CONSTRAINT `m_users_ibfk_2` FOREIGN KEY (`nipd`) REFERENCES `m_siswa` (`nipd`)
 ) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Membuang data untuk tabel vote_osismpk.m_users: ~41 rows (lebih kurang)
+-- Dumping data for table vote_osismpk.m_users: ~41 rows (approximately)
 INSERT INTO `m_users` (`id_users`, `username`, `password`, `role`, `is_active`, `nip`, `nipd`) VALUES
 	(1, '242510055', '123456', 'siswa', 'Y', NULL, '242510055'),
 	(2, '242510056', '123456', 'siswa', 'Y', NULL, '242510056'),
@@ -199,7 +198,7 @@ INSERT INTO `m_users` (`id_users`, `username`, `password`, `role`, `is_active`, 
 	(44, 'admin', '123', 'admin', 'Y', NULL, NULL),
 	(45, '242510100', '123456', 'siswa', 'Y', NULL, '242510100');
 
--- membuang struktur untuk procedure vote_osismpk.sp_hapus_guru
+-- Dumping structure for procedure vote_osismpk.sp_hapus_guru
 DELIMITER //
 CREATE PROCEDURE `sp_hapus_guru`(
 	IN `p_id_guru` INT
@@ -211,20 +210,7 @@ DELETE FROM m_guru WHERE id_guru = p_id_guru;
 END//
 DELIMITER ;
 
--- membuang struktur untuk procedure vote_osismpk.sp_hapus_kandidat
-DELIMITER //
-CREATE PROCEDURE `sp_hapus_kandidat`(
-	IN `p_id_kandidat` INT
-)
-BEGIN
-
-    DELETE FROM m_kandidat
-    WHERE id_kandidat = p_id_kandidat;
-
-END//
-DELIMITER ;
-
--- membuang struktur untuk procedure vote_osismpk.sp_hapus_siswa
+-- Dumping structure for procedure vote_osismpk.sp_hapus_siswa
 DELIMITER //
 CREATE PROCEDURE `sp_hapus_siswa`(
     IN p_id_siswa INT
@@ -238,7 +224,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk procedure vote_osismpk.sp_hapus_user
+-- Dumping structure for procedure vote_osismpk.sp_hapus_user
 DELIMITER //
 CREATE PROCEDURE `sp_hapus_user`(
 	IN `p_id_users` INT
@@ -251,7 +237,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk procedure vote_osismpk.sp_login
+-- Dumping structure for procedure vote_osismpk.sp_login
 DELIMITER //
 CREATE PROCEDURE `sp_login`(
     IN p_username VARCHAR(50),
@@ -269,7 +255,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk procedure vote_osismpk.sp_tambah_guru
+-- Dumping structure for procedure vote_osismpk.sp_tambah_guru
 DELIMITER //
 CREATE PROCEDURE `sp_tambah_guru`(
     IN p_nip VARCHAR(50),
@@ -282,7 +268,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk procedure vote_osismpk.sp_tambah_kandidat
+-- Dumping structure for procedure vote_osismpk.sp_tambah_kandidat
 DELIMITER //
 CREATE PROCEDURE `sp_tambah_kandidat`(
     IN p_ketua INT,
@@ -298,7 +284,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk procedure vote_osismpk.sp_tambah_siswa
+-- Dumping structure for procedure vote_osismpk.sp_tambah_siswa
 DELIMITER //
 CREATE PROCEDURE `sp_tambah_siswa`(
     IN p_nipd VARCHAR(10),
@@ -323,7 +309,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk procedure vote_osismpk.sp_tambah_user
+-- Dumping structure for procedure vote_osismpk.sp_tambah_user
 DELIMITER //
 CREATE PROCEDURE `sp_tambah_user`(
 	IN `p_username` VARCHAR(50),
@@ -365,7 +351,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk procedure vote_osismpk.sp_update_kandidat
+-- Dumping structure for procedure vote_osismpk.sp_update_kandidat
 DELIMITER //
 CREATE PROCEDURE `sp_update_kandidat`(
     IN p_id INT,
@@ -389,7 +375,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk procedure vote_osismpk.sp_voting
+-- Dumping structure for procedure vote_osismpk.sp_voting
 DELIMITER //
 CREATE PROCEDURE `sp_voting`(
     IN p_id_user INT,
@@ -429,14 +415,14 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk view vote_osismpk.total_vote
--- Membuat tabel sementara untuk menangani kesalahan ketergantungan VIEW
+-- Dumping structure for view vote_osismpk.total_vote
+-- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `total_vote` (
 	`jenis` ENUM('osis','mpk') NULL COLLATE 'utf8mb4_0900_ai_ci',
 	`total_vote` BIGINT NOT NULL
 ) ENGINE=MyISAM;
 
--- membuang struktur untuk table vote_osismpk.trs_voting
+-- Dumping structure for table vote_osismpk.trs_voting
 CREATE TABLE IF NOT EXISTS `trs_voting` (
   `id_voting` int NOT NULL AUTO_INCREMENT,
   `id_kandidat` int DEFAULT NULL,
@@ -453,7 +439,7 @@ CREATE TABLE IF NOT EXISTS `trs_voting` (
   CONSTRAINT `trs_voting_ibfk_3` FOREIGN KEY (`id_periode`) REFERENCES `m_periode` (`id_periode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Membuang data untuk tabel vote_osismpk.trs_voting: ~26 rows (lebih kurang)
+-- Dumping data for table vote_osismpk.trs_voting: ~26 rows (approximately)
 INSERT INTO `trs_voting` (`id_voting`, `id_kandidat`, `id_user`, `id_periode`, `jenis`, `tanggal`) VALUES
 	(1, 8, 13, 1, 'osis', '2026-05-06 21:20:52'),
 	(2, 10, 13, 1, 'mpk', '2026-05-06 21:20:58'),
@@ -482,7 +468,7 @@ INSERT INTO `trs_voting` (`id_voting`, `id_kandidat`, `id_user`, `id_periode`, `
 	(25, 3, 45, 2, 'mpk', '2026-05-09 07:18:48'),
 	(26, 5, 45, 2, 'osis', '2026-05-09 07:18:56');
 
--- membuang struktur untuk procedure vote_osismpk.update_guru
+-- Dumping structure for procedure vote_osismpk.update_guru
 DELIMITER //
 CREATE PROCEDURE `update_guru`(
     IN p_nama_guru VARCHAR(50),
@@ -505,7 +491,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk procedure vote_osismpk.update_siswa
+-- Dumping structure for procedure vote_osismpk.update_siswa
 DELIMITER //
 CREATE PROCEDURE `update_siswa`(
     IN p_id_siswa INT,
@@ -520,7 +506,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk procedure vote_osismpk.update_user
+-- Dumping structure for procedure vote_osismpk.update_user
 DELIMITER //
 CREATE PROCEDURE `update_user`(
 	IN `p_id_users` INT,
@@ -550,8 +536,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- membuang struktur untuk view vote_osismpk.v_guru
--- Membuat tabel sementara untuk menangani kesalahan ketergantungan VIEW
+-- Dumping structure for view vote_osismpk.v_guru
+-- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `v_guru` (
 	`id_guru` INT NOT NULL,
 	`nip` VARCHAR(1) NULL COLLATE 'utf8mb4_0900_ai_ci',
@@ -559,8 +545,8 @@ CREATE TABLE `v_guru` (
 	`jenis_kelamin` ENUM('L','P') NULL COLLATE 'utf8mb4_0900_ai_ci'
 ) ENGINE=MyISAM;
 
--- membuang struktur untuk view vote_osismpk.v_kandidat
--- Membuat tabel sementara untuk menangani kesalahan ketergantungan VIEW
+-- Dumping structure for view vote_osismpk.v_kandidat
+-- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `v_kandidat` (
 	`id_kandidat` INT NOT NULL,
 	`jenis` ENUM('osis','mpk') NULL COLLATE 'utf8mb4_0900_ai_ci',
@@ -571,8 +557,8 @@ CREATE TABLE `v_kandidat` (
 	`misi` VARCHAR(1) NULL COLLATE 'utf8mb4_0900_ai_ci'
 ) ENGINE=MyISAM;
 
--- membuang struktur untuk view vote_osismpk.v_progres_voting
--- Membuat tabel sementara untuk menangani kesalahan ketergantungan VIEW
+-- Dumping structure for view vote_osismpk.v_progres_voting
+-- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `v_progres_voting` (
 	`id_kandidat` INT NOT NULL,
 	`jenis` ENUM('osis','mpk') NULL COLLATE 'utf8mb4_0900_ai_ci',
@@ -584,8 +570,8 @@ CREATE TABLE `v_progres_voting` (
 	`persen` DECIMAL(26,2) NULL
 ) ENGINE=MyISAM;
 
--- membuang struktur untuk view vote_osismpk.v_siswa
--- Membuat tabel sementara untuk menangani kesalahan ketergantungan VIEW
+-- Dumping structure for view vote_osismpk.v_siswa
+-- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `v_siswa` (
 	`id_siswa` INT NOT NULL,
 	`nipd` VARCHAR(1) NULL COLLATE 'utf8mb4_0900_ai_ci',
@@ -594,8 +580,8 @@ CREATE TABLE `v_siswa` (
 	`is_active` VARCHAR(1) NOT NULL COLLATE 'utf8mb4_0900_ai_ci'
 ) ENGINE=MyISAM;
 
--- membuang struktur untuk view vote_osismpk.v_user
--- Membuat tabel sementara untuk menangani kesalahan ketergantungan VIEW
+-- Dumping structure for view vote_osismpk.v_user
+-- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `v_user` (
 	`id_users` INT NOT NULL,
 	`username` VARCHAR(1) NULL COLLATE 'utf8mb4_0900_ai_ci',
@@ -605,8 +591,8 @@ CREATE TABLE `v_user` (
 	`nama_siswa` VARCHAR(1) NULL COLLATE 'utf8mb4_0900_ai_ci'
 ) ENGINE=MyISAM;
 
--- membuang struktur untuk view vote_osismpk.v_voting
--- Membuat tabel sementara untuk menangani kesalahan ketergantungan VIEW
+-- Dumping structure for view vote_osismpk.v_voting
+-- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `v_voting` (
 	`id_voting` INT NOT NULL,
 	`username` VARCHAR(1) NULL COLLATE 'utf8mb4_0900_ai_ci',
@@ -615,31 +601,31 @@ CREATE TABLE `v_voting` (
 	`tanggal` DATETIME NULL
 ) ENGINE=MyISAM;
 
--- Menghapus tabel sementara dan menciptakan struktur VIEW terakhir
+-- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `total_vote`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `total_vote` AS select `v`.`jenis` AS `jenis`,count(0) AS `total_vote` from (`trs_voting` `v` join `m_periode` `p` on((`v`.`id_periode` = `p`.`id_periode`))) where (`p`.`is_active` = 'Y') group by `v`.`jenis`;
 
--- Menghapus tabel sementara dan menciptakan struktur VIEW terakhir
+-- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `v_guru`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_guru` AS select `m_guru`.`id_guru` AS `id_guru`,`m_guru`.`nip` AS `nip`,`m_guru`.`nama_guru` AS `nama_guru`,`m_guru`.`jenis_kelamin` AS `jenis_kelamin` from `m_guru`;
 
--- Menghapus tabel sementara dan menciptakan struktur VIEW terakhir
+-- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `v_kandidat`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_kandidat` AS select `k`.`id_kandidat` AS `id_kandidat`,`k`.`jenis` AS `jenis`,`p`.`nama_periode` AS `nama_periode`,`s1`.`nama_siswa` AS `ketua`,`s2`.`nama_siswa` AS `wakil`,`k`.`visi` AS `visi`,`k`.`misi` AS `misi` from (((`m_kandidat` `k` left join `m_siswa` `s1` on((`k`.`id_ketua` = `s1`.`id_siswa`))) left join `m_siswa` `s2` on((`k`.`id_wakil` = `s2`.`id_siswa`))) left join `m_periode` `p` on((`k`.`id_periode` = `p`.`id_periode`))) where (`p`.`is_active` = 'Y');
 
--- Menghapus tabel sementara dan menciptakan struktur VIEW terakhir
+-- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `v_progres_voting`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_progres_voting` AS select `k`.`id_kandidat` AS `id_kandidat`,`k`.`jenis` AS `jenis`,`p`.`nama_periode` AS `nama_periode`,`s1`.`nama_siswa` AS `ketua`,`s2`.`nama_siswa` AS `wakil`,count(`v`.`id_voting`) AS `total_vote`,(select count(distinct `tv`.`id_user`) from `trs_voting` `tv` where ((`tv`.`id_periode` = `k`.`id_periode`) and (`tv`.`jenis` = `k`.`jenis`))) AS `total_pemilih`,round(((count(`v`.`id_voting`) / (select count(distinct `tv`.`id_user`) from `trs_voting` `tv` where ((`tv`.`id_periode` = `k`.`id_periode`) and (`tv`.`jenis` = `k`.`jenis`)))) * 100),2) AS `persen` from ((((`m_kandidat` `k` left join `m_siswa` `s1` on((`k`.`id_ketua` = `s1`.`id_siswa`))) left join `m_siswa` `s2` on((`k`.`id_wakil` = `s2`.`id_siswa`))) left join `m_periode` `p` on((`k`.`id_periode` = `p`.`id_periode`))) left join `trs_voting` `v` on((`k`.`id_kandidat` = `v`.`id_kandidat`))) where (`p`.`is_active` = 'Y') group by `k`.`id_kandidat`,`k`.`jenis`,`p`.`nama_periode`,`s1`.`nama_siswa`,`s2`.`nama_siswa`;
 
--- Menghapus tabel sementara dan menciptakan struktur VIEW terakhir
+-- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `v_siswa`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_siswa` AS select `m_siswa`.`id_siswa` AS `id_siswa`,`m_siswa`.`nipd` AS `nipd`,`m_siswa`.`nama_siswa` AS `nama_siswa`,`m_siswa`.`jenis_kelamin` AS `jenis_kelamin`,coalesce(`m_siswa`.`is_active`,'Y') AS `is_active` from `m_siswa`;
 
--- Menghapus tabel sementara dan menciptakan struktur VIEW terakhir
+-- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `v_user`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_user` AS select `u`.`id_users` AS `id_users`,`u`.`username` AS `username`,`u`.`role` AS `role`,`u`.`is_active` AS `is_active`,`g`.`nama_guru` AS `nama_guru`,`s`.`nama_siswa` AS `nama_siswa` from ((`m_users` `u` left join `m_guru` `g` on((`u`.`nip` = `g`.`nip`))) left join `m_siswa` `s` on((`u`.`nipd` = `s`.`nipd`)));
 
--- Menghapus tabel sementara dan menciptakan struktur VIEW terakhir
+-- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `v_voting`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_voting` AS select `v`.`id_voting` AS `id_voting`,`u`.`username` AS `username`,`k`.`id_kandidat` AS `id_kandidat`,`p`.`nama_periode` AS `nama_periode`,`v`.`tanggal` AS `tanggal` from (((`trs_voting` `v` left join `m_users` `u` on((`v`.`id_user` = `u`.`id_users`))) left join `m_kandidat` `k` on((`v`.`id_kandidat` = `k`.`id_kandidat`))) left join `m_periode` `p` on((`v`.`id_periode` = `p`.`id_periode`)));
 
