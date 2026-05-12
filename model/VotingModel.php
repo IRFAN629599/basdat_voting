@@ -248,6 +248,136 @@ class VotingModel
         }
     }
 
+    /* ================= KANDIDAT ================= */
+
+    public function tambah_kandidat($data)
+{
+    try {
+        $periode = $this->db->query("
+            SELECT id_periode 
+            FROM m_periode 
+            WHERE is_active='Y'
+            LIMIT 1
+        ")->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $this->db->prepare("
+            CALL sp_tambah_kandidat(
+                :ketua,
+                :wakil,
+                :periode,
+                :jenis,
+                :visi,
+                :misi
+            )
+        ");
+
+        $stmt->execute([
+            ":ketua" => $data['ketua'],
+            ":wakil" => $data['wakil'],
+            ":periode" => $periode['id_periode'],
+            ":jenis" => $data['jenis'],
+            ":visi" => $data['visi'],
+            ":misi" => $data['misi']
+        ]);
+
+        $stmt->closeCursor();
+        return true;
+
+    } catch(PDOException $e){
+        return $e->getMessage();
+    }
+}
+
+    public function update_kandidat($data)
+    {
+        try {
+            $stmt = $this->db->prepare("
+            CALL sp_update_kandidat(:id,:ketua,:wakil,:jenis)
+        ");
+
+            $stmt->execute([
+                ":id" => $data['id'],
+                ":ketua" => $data['ketua'],
+                ":wakil" => $data['wakil'],
+                ":jenis" => $data['jenis']
+            ]);
+
+            $stmt->closeCursor();
+            return true;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function hapus_kandidat($id)
+    {
+        try {
+            $stmt = $this->db->prepare("CALL sp_hapus_kandidat(:id)");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $stmt->closeCursor();
+            return true;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function tambah_periode($data)
+    {
+        try {
+            $stmt = $this->db->prepare("
+            INSERT INTO m_periode(nama_periode,is_active)
+            VALUES(:nama,'N')
+        ");
+
+            $stmt->execute([
+                ":nama" => $data['nama']
+            ]);
+
+            return true;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function update_periode($data)
+    {
+        try {
+            $stmt = $this->db->prepare("
+            UPDATE m_periode
+            SET nama_periode = :nama
+            WHERE id_periode = :id
+        ");
+
+            $stmt->execute([
+                ":id" => $data['id'],
+                ":nama" => $data['nama']
+            ]);
+
+            return true;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function hapus_periode($id)
+    {
+        try {
+            $stmt = $this->db->prepare("
+            DELETE FROM m_periode
+            WHERE id_periode = :id
+        ");
+
+            $stmt->execute([
+                ":id" => $id
+            ]);
+
+            return true;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
     /* ================= GURU ================= */
 
     public function tambah_guru($data)

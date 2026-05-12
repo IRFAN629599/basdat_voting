@@ -197,6 +197,71 @@ class VotingController
         }
     }
 
+    public function tambah_periode()
+    {
+        $data = $this->getInput();
+
+        $result = $this->model->tambah_periode($data);
+
+        if ($result === true) {
+            jsonResponse(true, "Berhasil tambah periode");
+        } else {
+            jsonResponse(false, $result);
+        }
+    }
+
+    public function update_periode()
+    {
+        $data = $this->getInput();
+
+        $result = $this->model->update_periode($data);
+
+        if ($result === true) {
+            jsonResponse(true, "Berhasil update periode");
+        } else {
+            jsonResponse(false, $result);
+        }
+    }
+
+    public function hapus_periode()
+    {
+        $data = $this->getInput();
+
+        $result = $this->model->hapus_periode($data['id']);
+
+        if ($result === true) {
+            jsonResponse(true, "Berhasil hapus periode");
+        } else {
+            jsonResponse(false, $result);
+        }
+    }
+
+    /* ================= KANDIDAT ================= */
+
+    public function tambah_kandidat()
+    {
+        $data = $this->getInput();
+        $result = $this->model->tambah_kandidat($data);
+        if ($result === true) jsonResponse(true, "Berhasil tambah kandidat");
+        else jsonResponse(false, $result);
+    }
+
+    public function update_kandidat()
+    {
+        $data = $this->getInput();
+        $result = $this->model->update_kandidat($data);
+        if ($result === true) jsonResponse(true, "Berhasil update kandidat");
+        else jsonResponse(false, $result);
+    }
+
+    public function hapus_kandidat()
+    {
+        $data = $this->getInput();
+        $result = $this->model->hapus_kandidat($data['id']);
+        if ($result === true) jsonResponse(true, "Berhasil hapus kandidat");
+        else jsonResponse(false, $result);
+    }
+
     /* ================= GURU ================= */
 
     public function tambah_guru()

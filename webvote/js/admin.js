@@ -1,130 +1,155 @@
 const API = "http://localhost/Basdat/kelompok_api/index.php?action=";
-
 const user = JSON.parse(localStorage.getItem("user"));
 
 if (!user || user.role.toLowerCase() !== "admin") {
     window.location.href = "login.html";
 }
 
+// ================= GLOBAL =================
 let editId = null;
 let editGuruId = null;
+let editKandidatId = null;
 
 const successSound = new Audio("assets/sound/faah.mp3");
 
 function playSuccessSound() {
-    successSound.play().catch(e => console.log(e));
+    successSound.play().catch(err => console.log(err));
 }
 
-/* ================= PAGE ================= */
+function showSuccess(message, callback = null) {
+    Swal.fire({
+        title: "Berhasil!",
+        text: message,
+        imageUrl: "assets/gif/yatta.gif",
+        imageWidth: 200
+    }).then(() => {
+        playSuccessSound();
+        if (callback) callback();
+    });
+}
 
-function showPage(id, el) {
+function showConfirm(text, callback) {
+    Swal.fire({
+        title: "Yakin?",
+        text: text,
+        showCancelButton: true,
+        confirmButtonText: "Ya"
+    }).then(result => {
+        if (result.isConfirmed) callback();
+    });
+}
 
-    document.querySelectorAll(".page")
-        .forEach(p => p.classList.add("hidden"));
+// ================= NAVIGATION =================
+function showPage(id, el = null) {
+    document.querySelectorAll(".page").forEach(p => p.classList.add("hidden"));
+    document.getElementById(id).classList.remove("hidden");
 
-    document.getElementById(id)
-        .classList.remove("hidden");
+    const titles = {
+        dashboard: "Dashboard",
+        siswa: "Siswa",
+        guru: "Guru",
+        kandidat: "Kandidat",
+        periode: "Periode"
+    };
 
-    document.getElementById("titlePage")
-        .innerText = id;
+    document.getElementById("titlePage").innerText = titles[id];
 
-    document.querySelectorAll(".sidebar a")
-        .forEach(a => a.classList.remove("active"));
+    document.querySelectorAll(".sidebar a").forEach(a => {
+        a.classList.remove("active");
+    });
 
     if (el) el.classList.add("active");
 
-    if (id === "dashboard") loadDashboard();
-    if (id === "siswa") loadSiswa();
-    if (id === "guru") loadGuru();
-    if (id === "kandidat") loadKandidat();
-    if (id === "periode") loadPeriode();
+    switch (id) {
+        case "dashboard":
+            loadDashboard();
+            break;
+        case "siswa":
+            loadSiswa();
+            break;
+        case "guru":
+            loadGuru();
+            break;
+        case "kandidat":
+            loadKandidat();
+            loadSiswaDropdown();
+            loadPeriodeDropdown();
+            break;
+        case "periode":
+            loadPeriode();
+            break;
+    }
 }
 
-/* ================= DASHBOARD ================= */
-
+// ================= DASHBOARD =================
 function loadDashboard() {
-
     fetch(API + "siswa")
         .then(r => r.json())
         .then(d => {
-            document.getElementById("totalSiswa").innerText = d.data.length;
+            totalSiswa.innerText = d.data.length;
         });
 
     fetch(API + "guru")
         .then(r => r.json())
         .then(d => {
-            document.getElementById("totalGuru").innerText = d.data.length;
+            totalGuru.innerText = d.data.length;
         });
 
     fetch(API + "kandidat")
         .then(r => r.json())
         .then(d => {
-            document.getElementById("totalKandidat").innerText = d.data.length;
+            totalKandidat.innerText = d.data.length;
         });
 
     fetch(API + "periode")
         .then(r => r.json())
         .then(d => {
-
-            let aktif = d.data.find(p => p.is_active === "Y");
-
-            document.getElementById("periodeAktif").innerText =
-                aktif ? aktif.nama_periode : "-";
+            const aktif = d.data.find(p => p.is_active === "Y");
+            periodeAktif.innerText = aktif ? aktif.nama_periode : "-";
         });
 
     fetch(API + "progres_voting")
         .then(r => r.json())
         .then(d => {
-
             let html = "";
 
             d.data.forEach((p, i) => {
-
                 html += `
                     <tr>
                         <td>${i + 1}</td>
                         <td>${p.ketua}</td>
                         <td>${p.jenis}</td>
                         <td>${p.total_vote}</td>
-                        <td>${p.persen ?? 0}%</td>
+                        <td>${p.persen || 0}%</td>
                     </tr>
                 `;
             });
 
-            document.getElementById("tblProgres").innerHTML = html;
+            tblProgres.innerHTML = html;
         });
 }
 
-/* ================= SISWA ================= */
-
+// ================= SISWA =================
 function showFormSiswa() {
-    document.getElementById("formSiswa")
-        .classList.toggle("hidden");
+    formSiswa.classList.toggle("hidden");
 }
 
-function resetForm() {
-
+function resetFormSiswa() {
     editId = null;
-
     f_nipd.value = "";
     f_nama.value = "";
     f_jk.value = "L";
     f_status.value = "Y";
-
-    document.getElementById("formSiswa")
-        .classList.add("hidden");
+    formSiswa.classList.add("hidden");
 }
 
 function loadSiswa() {
-
     fetch(API + "siswa")
         .then(r => r.json())
         .then(d => {
-
             let html = "";
 
             d.data.forEach((s, i) => {
-
                 html += `
                     <tr>
                         <td>${i + 1}</td>
@@ -133,21 +158,8 @@ function loadSiswa() {
                         <td>${s.jenis_kelamin}</td>
                         <td>${s.is_active}</td>
                         <td>
-
-                            <button onclick="editSiswa(
-                                '${s.id_siswa}',
-                                '${s.nipd}',
-                                '${s.nama_siswa}',
-                                '${s.jenis_kelamin}',
-                                '${s.is_active}'
-                            )">
-                                Edit
-                            </button>
-
-                            <button onclick="deleteSiswa('${s.id_siswa}')">
-                                Hapus
-                            </button>
-
+                            <button onclick="editSiswa('${s.id_siswa}','${s.nipd}','${s.nama_siswa}','${s.jenis_kelamin}','${s.is_active}')">Edit</button>
+                            <button onclick="deleteSiswa('${s.id_siswa}')">Hapus</button>
                         </td>
                     </tr>
                 `;
@@ -158,9 +170,7 @@ function loadSiswa() {
 }
 
 function editSiswa(id, nipd, nama, jk, status) {
-
     editId = id;
-
     showFormSiswa();
 
     f_nipd.value = nipd;
@@ -170,7 +180,6 @@ function editSiswa(id, nipd, nama, jk, status) {
 }
 
 function saveSiswa() {
-
     const data = {
         id: editId,
         nipd: f_nipd.value,
@@ -179,105 +188,56 @@ function saveSiswa() {
         is_active: f_status.value
     };
 
-    const url = editId
-        ? "update_siswa"
-        : "tambah_siswa";
+    const url = editId ? "update_siswa" : "tambah_siswa";
 
     fetch(API + url, {
-
         method: "POST",
-
-        headers: {
-            "Content-Type": "application/json"
-        },
-
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
-
     })
         .then(r => r.json())
         .then(res => {
-
-            Swal.fire({
-                title: "Berhasil!",
-                text: res.message,
-                imageUrl: "assets/gif/yatta.gif",
-                imageWidth: 200
-            }).then(() => playSuccessSound());
-
-            resetForm();
-
-            loadSiswa();
+            showSuccess(res.message, () => {
+                resetFormSiswa();
+                loadSiswa();
+            });
         });
 }
 
 function deleteSiswa(id) {
-
-    Swal.fire({
-        title: "Yakin?",
-        text: "Data akan dihapus",
-        showCancelButton: true,
-        confirmButtonText: "Ya"
-    })
-        .then(result => {
-
-            if (result.isConfirmed) {
-
-                fetch(API + "hapus_siswa", {
-
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({ id })
-
-                })
-                    .then(r => r.json())
-                    .then(res => {
-
-                        Swal.fire({
-                            title: "Berhasil!",
-                            text: res.message,
-                            imageUrl: "assets/gif/yatta.gif",
-                            imageWidth: 200
-                        }).then(() => playSuccessSound());
-
-                        loadSiswa();
-                    });
-            }
-        });
+    showConfirm("Data siswa akan dihapus", () => {
+        fetch(API + "hapus_siswa", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id })
+        })
+            .then(r => r.json())
+            .then(res => {
+                showSuccess(res.message, loadSiswa);
+            });
+    });
 }
 
-/* ================= GURU ================= */
-
+// ================= GURU =================
 function showFormGuru() {
-    document.getElementById("formGuru")
-        .classList.toggle("hidden");
+    formGuru.classList.toggle("hidden");
 }
 
 function resetFormGuru() {
-
     editGuruId = null;
-
     g_nip.value = "";
     g_nama.value = "";
     g_jk.value = "L";
-
-    document.getElementById("formGuru")
-        .classList.add("hidden");
+    formGuru.classList.add("hidden");
 }
 
 function loadGuru() {
-
     fetch(API + "guru")
         .then(r => r.json())
         .then(d => {
-
             let html = "";
 
             d.data.forEach((g, i) => {
-
                 html += `
                     <tr>
                         <td>${i + 1}</td>
@@ -285,20 +245,8 @@ function loadGuru() {
                         <td>${g.nama_guru}</td>
                         <td>${g.jenis_kelamin}</td>
                         <td>
-
-                            <button onclick="editGuru(
-                                '${g.id_guru}',
-                                '${g.nip}',
-                                '${g.nama_guru}',
-                                '${g.jenis_kelamin}'
-                            )">
-                                Edit
-                            </button>
-
-                            <button onclick="deleteGuru('${g.id_guru}')">
-                                Hapus
-                            </button>
-
+                            <button onclick="editGuru('${g.id_guru}','${g.nip}','${g.nama_guru}','${g.jenis_kelamin}')">Edit</button>
+                            <button onclick="deleteGuru('${g.id_guru}')">Hapus</button>
                         </td>
                     </tr>
                 `;
@@ -309,9 +257,7 @@ function loadGuru() {
 }
 
 function editGuru(id, nip, nama, jk) {
-
     editGuruId = id;
-
     showFormGuru();
 
     g_nip.value = nip;
@@ -320,7 +266,6 @@ function editGuru(id, nip, nama, jk) {
 }
 
 function saveGuru() {
-
     const data = {
         id: editGuruId,
         nip: g_nip.value,
@@ -328,94 +273,109 @@ function saveGuru() {
         jk: g_jk.value
     };
 
-    const url = editGuruId
-        ? "update_guru"
-        : "tambah_guru";
+    const url = editGuruId ? "update_guru" : "tambah_guru";
 
     fetch(API + url, {
-
         method: "POST",
-
-        headers: {
-            "Content-Type": "application/json"
-        },
-
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
-
     })
         .then(r => r.json())
         .then(res => {
-
-            Swal.fire({
-                title: "Berhasil!",
-                text: res.message,
-                imageUrl: "assets/gif/yatta.gif",
-                imageWidth: 200
-            }).then(() => playSuccessSound());
-
-            resetFormGuru();
-
-            loadGuru();
+            showSuccess(res.message, () => {
+                resetFormGuru();
+                loadGuru();
+            });
         });
 }
 
 function deleteGuru(id) {
+    showConfirm("Data guru akan dihapus", () => {
+        fetch(API + "hapus_guru", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id })
+        })
+            .then(r => r.json())
+            .then(res => {
+                showSuccess(res.message, loadGuru);
+            });
+    });
+}
 
-    Swal.fire({
-        title: "Yakin?",
-        text: "Data guru akan dihapus",
-        showCancelButton: true,
-        confirmButtonText: "Ya"
-    })
-        .then(result => {
+// ================= KANDIDAT =================
+// ================= KANDIDAT =================
+function showFormKandidat() {
+    formKandidat.classList.toggle("hidden");
+}
 
-            if (result.isConfirmed) {
+function resetFormKandidat() {
+    editKandidatId = null;
 
-                fetch(API + "hapus_guru", {
+    k_ketua.value = "";
+    k_wakil.value = "";
+    k_periode.value = "";
+    k_jenis.value = "osis";
 
-                    method: "POST",
+    formKandidat.classList.add("hidden");
+}
 
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+// dropdown siswa
+function loadSiswaDropdown() {
+    fetch(API + "siswa")
+        .then(r => r.json())
+        .then(d => {
+            let html = `<option value="">Pilih Siswa</option>`;
 
-                    body: JSON.stringify({ id })
+            d.data
+                .filter(s => s.is_active === "Y")
+                .forEach(s => {
+                    html += `
+                        <option value="${s.id_siswa}">
+                            ${s.nama_siswa}
+                        </option>
+                    `;
+                });
 
-                })
-                    .then(r => r.json())
-                    .then(res => {
-
-                        Swal.fire({
-                            title: "Berhasil!",
-                            text: res.message,
-                            imageUrl: "assets/gif/yatta.gif",
-                            imageWidth: 200
-                        }).then(() => playSuccessSound());
-
-                        loadGuru();
-                    });
-            }
+            k_ketua.innerHTML = html;
+            k_wakil.innerHTML = html;
         });
 }
 
-/* ================= KANDIDAT ================= */
+// dropdown periode
+function loadPeriodeDropdown() {
+    fetch(API + "periode")
+        .then(r => r.json())
+        .then(d => {
+            let html = `<option value="">Pilih Periode</option>`;
 
+            d.data.forEach(p => {
+                html += `
+                    <option value="${p.id_periode}">
+                        ${p.nama_periode}
+                    </option>
+                `;
+            });
+
+            k_periode.innerHTML = html;
+        });
+}
+
+// load tabel kandidat
 function loadKandidat() {
-
     fetch(API + "kandidat")
         .then(r => r.json())
         .then(d => {
-
             let html = "";
 
             d.data.forEach((k, i) => {
-
                 html += `
                     <tr>
                         <td>${i + 1}</td>
                         <td>${k.ketua}</td>
                         <td>${k.wakil}</td>
-                        <td>${k.jenis}</td>
+                        <td>${k.nama_periode}</td>
+                        <td>${k.jenis.toUpperCase()}</td>
                     </tr>
                 `;
             });
@@ -424,33 +384,35 @@ function loadKandidat() {
         });
 }
 
-/* ================= PERIODE ================= */
+// ================= PERIODE =================
+function showFormPeriode() {
+    formPeriode.classList.toggle("hidden");
+}
+
+function resetFormPeriode() {
+    p_nama.value = "";
+    formPeriode.classList.add("hidden");
+}
 
 function loadPeriode() {
-
     fetch(API + "periode")
         .then(r => r.json())
         .then(d => {
-
             let html = "";
 
             d.data.forEach((p, i) => {
-
-                let status = p.is_active === "Y"
-                    ? "Aktif"
-                    : "Nonaktif";
-
                 html += `
                     <tr>
                         <td>${i + 1}</td>
                         <td>${p.nama_periode}</td>
-                        <td>${status}</td>
+                        <td>${p.is_active === "Y" ? "Aktif" : "Nonaktif"}</td>
                         <td>
-
-                            <button onclick="setAktif(${p.id_periode})">
+                            <button onclick="setAktif('${p.id_periode}')">
                                 Aktifkan
                             </button>
-
+                            <button onclick="deletePeriode('${p.id_periode}')">
+                                Hapus
+                            </button>
                         </td>
                     </tr>
                 `;
@@ -460,44 +422,63 @@ function loadPeriode() {
         });
 }
 
-function setAktif(id) {
+function savePeriode() {
+    const data = {
+        nama: p_nama.value
+    };
 
-    fetch(API + "set_periode", {
-
+    fetch(API + "tambah_periode", {
         method: "POST",
-
-        headers: {
-            "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify({ id })
-
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
     })
         .then(r => r.json())
         .then(res => {
-
-            Swal.fire({
-                title: "Berhasil!",
-                text: res.message,
-                imageUrl: "assets/gif/yatta.gif",
-                imageWidth: 200
-            }).then(() => playSuccessSound());
-
-            loadPeriode();
-
-            loadDashboard();
+            showSuccess(res.message, () => {
+                resetFormPeriode();
+                loadPeriode();
+                loadDashboard();
+            });
         });
 }
 
-/* ================= LOGOUT ================= */
+function deletePeriode(id) {
+    showConfirm("Data periode akan dihapus", () => {
+        fetch(API + "hapus_periode", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id })
+        })
+            .then(r => r.json())
+            .then(res => {
+                showSuccess(res.message, () => {
+                    loadPeriode();
+                    loadDashboard();
+                });
+            });
+    });
+}
 
+function setAktif(id) {
+    fetch(API + "set_periode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+    })
+        .then(r => r.json())
+        .then(res => {
+            showSuccess(res.message, () => {
+                loadPeriode();
+                loadDashboard();
+            });
+        });
+}
+
+// ================= LOGOUT =================
 function logout() {
-
     localStorage.removeItem("user");
-
     window.location.href = "login.html";
 }
 
-/* ================= INIT ================= */
-
-loadDashboard();
+// ================= INIT =================
+loadDashboard();    

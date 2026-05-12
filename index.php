@@ -74,6 +74,26 @@ switch ($action) {
     case 'set_periode':
         $controller->set_periode();
         break;
+    case 'tambah_kandidat':
+        $controller->tambah_kandidat();
+        break;
+    case 'update_kandidat':
+        $controller->update_kandidat();
+        break;
+    case 'hapus_kandidat':
+        $controller->hapus_kandidat();
+        break;
+    case 'tambah_periode':
+        $controller->tambah_periode();
+        break;
+
+    case 'update_periode':
+        $controller->update_periode();
+        break;
+
+    case 'hapus_periode':
+        $controller->hapus_periode();
+        break;
 
     default:
         echo json_encode([

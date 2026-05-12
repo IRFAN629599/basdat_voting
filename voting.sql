@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `m_guru` (
   UNIQUE KEY `nip` (`nip`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Membuang data untuk tabel vote_osismpk.m_guru: ~14 rows (lebih kurang)
+-- Membuang data untuk tabel vote_osismpk.m_guru: ~13 rows (lebih kurang)
 INSERT INTO `m_guru` (`id_guru`, `nip`, `nama_guru`, `jenis_kelamin`) VALUES
 	(1, 'G001', 'Denisa ramadanti', 'P'),
 	(2, 'G002', 'Lidiawati', 'P'),
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `m_kandidat` (
   CONSTRAINT `m_kandidat_ibfk_3` FOREIGN KEY (`id_periode`) REFERENCES `m_periode` (`id_periode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Membuang data untuk tabel vote_osismpk.m_kandidat: ~9 rows (lebih kurang)
+-- Membuang data untuk tabel vote_osismpk.m_kandidat: ~10 rows (lebih kurang)
 INSERT INTO `m_kandidat` (`id_kandidat`, `id_ketua`, `id_wakil`, `id_periode`, `jenis`, `visi`, `misi`) VALUES
 	(1, 4, 1, 2, 'osis', 'OSIS aktif dan kreatif', 'Mengadakan kegiatan seru & bermanfaat'),
 	(2, 19, 10, 2, 'osis', 'OSIS disiplin dan kompak', 'Meningkatkan kerjasama dan kedisiplinan siswa'),
@@ -84,12 +84,14 @@ CREATE TABLE IF NOT EXISTS `m_periode` (
   `tanggal_selesai` date DEFAULT NULL,
   `is_active` enum('Y','N') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id_periode`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Membuang data untuk tabel vote_osismpk.m_periode: ~2 rows (lebih kurang)
+-- Membuang data untuk tabel vote_osismpk.m_periode: ~3 rows (lebih kurang)
 INSERT INTO `m_periode` (`id_periode`, `nama_periode`, `tanggal_mulai`, `tanggal_selesai`, `is_active`) VALUES
 	(1, '2027', '2026-01-01', '2026-12-31', 'Y'),
-	(2, '2026', '2026-05-05', '2026-12-31', 'N');
+	(2, '2026', '2026-05-05', '2026-12-31', 'N'),
+	(3, '2028', NULL, NULL, 'N'),
+	(4, '2029', NULL, NULL, 'N');
 
 -- membuang struktur untuk table vote_osismpk.m_siswa
 CREATE TABLE IF NOT EXISTS `m_siswa` (
@@ -153,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `m_users` (
   CONSTRAINT `m_users_ibfk_2` FOREIGN KEY (`nipd`) REFERENCES `m_siswa` (`nipd`)
 ) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Membuang data untuk tabel vote_osismpk.m_users: ~39 rows (lebih kurang)
+-- Membuang data untuk tabel vote_osismpk.m_users: ~41 rows (lebih kurang)
 INSERT INTO `m_users` (`id_users`, `username`, `password`, `role`, `is_active`, `nip`, `nipd`) VALUES
 	(1, '242510055', '123456', 'siswa', 'Y', NULL, '242510055'),
 	(2, '242510056', '123456', 'siswa', 'Y', NULL, '242510056'),
@@ -205,6 +207,19 @@ CREATE PROCEDURE `sp_hapus_guru`(
 BEGIN
 
 DELETE FROM m_guru WHERE id_guru = p_id_guru;
+
+END//
+DELIMITER ;
+
+-- membuang struktur untuk procedure vote_osismpk.sp_hapus_kandidat
+DELIMITER //
+CREATE PROCEDURE `sp_hapus_kandidat`(
+	IN `p_id_kandidat` INT
+)
+BEGIN
+
+    DELETE FROM m_kandidat
+    WHERE id_kandidat = p_id_kandidat;
 
 END//
 DELIMITER ;
@@ -438,7 +453,7 @@ CREATE TABLE IF NOT EXISTS `trs_voting` (
   CONSTRAINT `trs_voting_ibfk_3` FOREIGN KEY (`id_periode`) REFERENCES `m_periode` (`id_periode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Membuang data untuk tabel vote_osismpk.trs_voting: ~21 rows (lebih kurang)
+-- Membuang data untuk tabel vote_osismpk.trs_voting: ~26 rows (lebih kurang)
 INSERT INTO `trs_voting` (`id_voting`, `id_kandidat`, `id_user`, `id_periode`, `jenis`, `tanggal`) VALUES
 	(1, 8, 13, 1, 'osis', '2026-05-06 21:20:52'),
 	(2, 10, 13, 1, 'mpk', '2026-05-06 21:20:58'),

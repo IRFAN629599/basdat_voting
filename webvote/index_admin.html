@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <title>Admin E-Voting</title>
 
     <link rel="stylesheet" href="css/admin.css">
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="shortcut icon" href="assets/img/logo_bpm.png" type="image/x-icon">
 </head>
-
 <body>
 
+    <!-- SIDEBAR -->
     <div class="sidebar">
-
         <div class="logo-area">
-            <img src="assets/img/logo_bpm.png">
+            <img src="assets/img/logo_bpm.png" alt="logo">
             <p class="title">Voting BPM</p>
         </div>
 
@@ -27,47 +24,43 @@
         <a onclick="showPage('kandidat',this)">Kandidat</a>
         <a onclick="showPage('periode',this)">Periode</a>
         <a onclick="logout()">Logout</a>
-
     </div>
 
+
+    <!-- MAIN CONTENT -->
     <div class="main">
 
         <h2 id="titlePage">Dashboard</h2>
 
-        <!-- DASHBOARD -->
-
+        <!-- ================= DASHBOARD ================= -->
         <div id="dashboard" class="page">
 
             <div class="cards">
-
-                <div class="card">
+                <div class="card" onclick="showPage('siswa',this)">
                     <h3 id="totalSiswa">0</h3>
                     <p>Siswa</p>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showPage('guru',this)">
                     <h3 id="totalGuru">0</h3>
                     <p>Guru</p>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showPage('kandidat',this)">
                     <h3 id="totalKandidat">0</h3>
                     <p>Kandidat</p>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="showPage('periode',this)">
                     <h3 id="periodeAktif">-</h3>
                     <p>Periode Aktif</p>
                 </div>
-
             </div>
 
             <div class="box">
-
                 <h3>Progres Voting Kandidat</h3>
 
                 <table>
-
                     <thead>
                         <tr>
                             <th>No</th>
@@ -77,19 +70,14 @@
                             <th>Persentase</th>
                         </tr>
                     </thead>
-
                     <tbody id="tblProgres"></tbody>
-
                 </table>
-
             </div>
-
         </div>
 
-        <!-- SISWA -->
 
+        <!-- ================= SISWA ================= -->
         <div id="siswa" class="page hidden">
-
             <div class="box">
 
                 <button onclick="showFormSiswa()">
@@ -97,9 +85,7 @@
                 </button>
 
                 <div id="formSiswa" class="hidden form">
-
                     <input id="f_nipd" placeholder="NIPD">
-
                     <input id="f_nama" placeholder="Nama">
 
                     <select id="f_jk">
@@ -113,19 +99,10 @@
                     </select>
 
                     <button onclick="saveSiswa()">Simpan</button>
-
-                    <button onclick="resetForm()">
-                        Batal
-                    </button>
-
+                    <button onclick="resetFormSiswa()">Batal</button>
                 </div>
 
-            </div>
-
-            <div class="box">
-
                 <table>
-
                     <thead>
                         <tr>
                             <th>No</th>
@@ -136,19 +113,15 @@
                             <th>Aksi</th>
                         </tr>
                     </thead>
-
                     <tbody id="tblSiswa"></tbody>
-
                 </table>
 
             </div>
-
         </div>
 
-        <!-- GURU -->
 
+        <!-- ================= GURU ================= -->
         <div id="guru" class="page hidden">
-
             <div class="box">
 
                 <button onclick="showFormGuru()">
@@ -156,9 +129,7 @@
                 </button>
 
                 <div id="formGuru" class="hidden form">
-
                     <input id="g_nip" placeholder="NIP">
-
                     <input id="g_nama" placeholder="Nama">
 
                     <select id="g_jk">
@@ -166,22 +137,11 @@
                         <option value="P">P</option>
                     </select>
 
-                    <button onclick="saveGuru()">
-                        Simpan
-                    </button>
-
-                    <button onclick="resetFormGuru()">
-                        Batal
-                    </button>
-
+                    <button onclick="saveGuru()">Simpan</button>
+                    <button onclick="resetFormGuru()">Batal</button>
                 </div>
 
-            </div>
-
-            <div class="box">
-
                 <table>
-
                     <thead>
                         <tr>
                             <th>No</th>
@@ -191,48 +151,53 @@
                             <th>Aksi</th>
                         </tr>
                     </thead>
-
                     <tbody id="tblGuru"></tbody>
-
                 </table>
 
             </div>
-
         </div>
 
-        <!-- KANDIDAT -->
 
+        <!-- ================= KANDIDAT ================= -->
         <div id="kandidat" class="page hidden">
-
             <div class="box">
 
-                <table>
+                <h3>Data Kandidat</h3>
 
+                <table>
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Ketua</th>
                             <th>Wakil</th>
+                            <th>Periode</th>
                             <th>Jenis Organisasi</th>
                         </tr>
                     </thead>
 
                     <tbody id="tblKandidat"></tbody>
-
                 </table>
 
             </div>
-
         </div>
 
-        <!-- PERIODE -->
 
+        <!-- ================= PERIODE ================= -->
         <div id="periode" class="page hidden">
-
             <div class="box">
 
-                <table>
+                <button onclick="showFormPeriode()">
+                    + Tambah Periode
+                </button>
 
+                <div id="formPeriode" class="hidden form">
+                    <input id="p_nama" placeholder="Nama Periode">
+
+                    <button onclick="savePeriode()">Simpan</button>
+                    <button onclick="resetFormPeriode()">Batal</button>
+                </div>
+
+                <table>
                     <thead>
                         <tr>
                             <th>No</th>
@@ -243,17 +208,20 @@
                     </thead>
 
                     <tbody id="tblPeriode"></tbody>
-
                 </table>
 
             </div>
-
         </div>
 
     </div>
 
     <script src="js/admin.js"></script>
-
 </body>
-
 </html>
+
+git status
+
+
+git add .
+git commit -m "add new folder"
+git push origin main
